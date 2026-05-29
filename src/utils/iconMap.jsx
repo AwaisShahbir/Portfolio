@@ -1,9 +1,14 @@
 // Maps icon name strings (stored in Firestore) to Lucide React components
-import { Layout, Smartphone, Database, Cpu, Code2, Server, Github, Globe, Layers, Terminal, Box, Zap } from 'lucide-react';
+import { 
+    Layout, Smartphone, Database, Cpu, Code2, Server, Github, 
+    Globe, Layers, Terminal, Box, Zap, 
+    ShieldCheck, ClipboardCheck, BadgeCheck, Eye 
+} from 'lucide-react';
 
 export const ICON_MAP = {
     Layout, Smartphone, Database, Cpu, Code2, Server, Github,
-    Globe, Layers, Terminal, Box, Zap
+    Globe, Layers, Terminal, Box, Zap,
+    ShieldCheck, ClipboardCheck, BadgeCheck, Eye
 };
 
 export const ICON_OPTIONS = Object.keys(ICON_MAP);
