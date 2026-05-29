@@ -107,6 +107,9 @@ const AboutEditor = () => {
                             className="form-input" placeholder="https://... or upload a local PDF below"
                             style={{ fontSize: '0.875rem' }}
                         />
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.4, marginTop: '0.2rem' }}>
+                            💡 <strong>Firebase Free (Spark) Plan Tip:</strong> Since Firebase Storage requires a billing account, you can simply upload your CV PDF to <strong>Google Drive</strong>, <strong>GitHub</strong>, or <strong>Dropbox</strong>, make the link shareable (accessible to anyone), and paste the URL in the box above!
+                        </span>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.4rem' }}>
                         <label style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Upload Local PDF</label>
