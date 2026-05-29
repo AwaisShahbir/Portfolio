@@ -1,14 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Portfolio from './pages/Portfolio';
-import AdminDashboard from './pages/AdminDashboard'; // We will create this
+import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/admin/AdminLogin';
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Portfolio />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-        </Routes>
+        <AuthProvider>
+            <Routes>
+                <Route path="/" element={<Portfolio />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
+            </Routes>
+        </AuthProvider>
     );
 }
 
