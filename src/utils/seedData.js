@@ -18,6 +18,9 @@ const INITIAL_ABOUT = {
     skills: [
         { name: 'React / Next.js', icon: 'Layout', color: 'var(--accent-primary)' },
         { name: 'Flutter', icon: 'Smartphone', color: 'var(--accent-primary)' },
+        { name: 'Firebase', icon: 'Zap', color: 'var(--accent-gold)' },
+        { name: 'SQA Engineer', icon: 'ShieldCheck', color: 'var(--accent-secondary)' },
+        { name: 'MySQL', icon: 'Database', color: 'var(--accent-primary)' },
         { name: 'MongoDB', icon: 'Database', color: 'var(--accent-secondary)' },
         { name: 'Java / C++', icon: 'Cpu', color: 'var(--accent-secondary)' },
         { name: 'Tailwind CSS', icon: 'Code2', color: 'var(--accent-gold)' },
