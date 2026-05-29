@@ -1,23 +1,24 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-// import { getStorage } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 
-// TODO: Replace with your Firebase project's configuration
-// You can find this in your Firebase Console -> Project Settings -> General -> Your apps
+// ─── PASTE YOUR FIREBASE CONFIG HERE ──────────────────────────────────────────
+// Firebase Console → Project Settings → Your Apps → Web App → Config object
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDzy9V4ZOdzatM8N5TZ1PXPa7Ha-GAxsKw",
+  authDomain: "portfolio-a63a3.firebaseapp.com",
+  projectId: "portfolio-a63a3",
+  storageBucket: "portfolio-a63a3.firebasestorage.app",
+  messagingSenderId: "54615898299",
+  appId: "1:54615898299:web:21d621d93dc996a05a119e",
+  measurementId: "G-D00TGWR2KK"
 };
+// ──────────────────────────────────────────────────────────────────────────────
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-// export const storage = getStorage(app); 
+export const storage = getStorage(app);
+export default app;
