@@ -14,6 +14,7 @@ const INITIAL_HERO = {
 
 const INITIAL_ABOUT = {
     bio: 'Software Engineering student at Riphah International University skilled in full-stack and Flutter development, with experience in Java and C++. Proficient in React, Next.js, Redux Toolkit, and MongoDB. Passionate about building responsive, user-friendly applications.',
+    cvUrl: 'https://drive.google.com/drive/folders/1ho5zJMlKb-Vo-X1wmiO7BGtkDl1dR6Lc?usp=drive_link',
     skills: [
         { name: 'React / Next.js', icon: 'Layout', color: 'var(--accent-primary)' },
         { name: 'Flutter', icon: 'Smartphone', color: 'var(--accent-primary)' },
