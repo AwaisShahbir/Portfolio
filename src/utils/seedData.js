@@ -59,6 +59,17 @@ const INITIAL_CONTACT = {
     name: 'Awais Shabbir',
 };
 
+const INITIAL_EXPERIENCE = [
+    {
+        role: 'Junior Flutter Developer',
+        company: 'Blendz Marketing',
+        duration: 'Aug 2025 – Apr 2026',
+        location: 'Remote, Lahore, Pakistan',
+        description: 'Developed and optimized cross-platform Flutter applications for mobile and tablet screens. Designed clean, responsive user interfaces and custom micro-animations. Integrated REST APIs, Firebase authentication, and database services.',
+        order: 1,
+    }
+];
+
 export const seedFirestore = async () => {
     try {
         // Hero
@@ -71,6 +82,11 @@ export const seedFirestore = async () => {
         const existingProjects = await getDocs(collection(db, 'projects'));
         await Promise.all(existingProjects.docs.map(d => deleteDoc(d.ref)));
         await Promise.all(INITIAL_PROJECTS.map(p => addDoc(collection(db, 'projects'), p)));
+
+        // Experience — clear existing then add
+        const existingExperience = await getDocs(collection(db, 'experience'));
+        await Promise.all(existingExperience.docs.map(d => deleteDoc(d.ref)));
+        await Promise.all(INITIAL_EXPERIENCE.map(exp => addDoc(collection(db, 'experience'), exp)));
 
         // Contact info
         await setDoc(doc(db, 'contact_info', 'main'), INITIAL_CONTACT);

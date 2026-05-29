@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import AdminNav from './admin/components/AdminNav';
 import HeroEditor from './admin/sections/HeroEditor';
 import AboutEditor from './admin/sections/AboutEditor';
+import ExperienceEditor from './admin/sections/ExperienceEditor';
 import ProjectsEditor from './admin/sections/ProjectsEditor';
 import ContactEditor from './admin/sections/ContactEditor';
 import MessagesInbox from './admin/sections/MessagesInbox';
@@ -57,6 +58,8 @@ const AdminDashboard = () => {
                 return <HeroEditor />;
             case 'about':
                 return <AboutEditor />;
+            case 'experience':
+                return <ExperienceEditor />;
             case 'projects':
                 return <ProjectsEditor />;
             case 'contact':

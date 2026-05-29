@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Home, User, Briefcase, Mail, MessageSquare, LogOut, ExternalLink } from 'lucide-react';
+import { Home, User, Briefcase, Mail, MessageSquare, LogOut, ExternalLink, Award } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 
 const NAV_ITEMS = [
-    { id: 'hero',     label: 'Hero',      icon: Home },
-    { id: 'about',    label: 'About',     icon: User },
-    { id: 'projects', label: 'Projects',  icon: Briefcase },
-    { id: 'contact',  label: 'Contact',   icon: Mail },
-    { id: 'messages', label: 'Messages',  icon: MessageSquare },
+    { id: 'hero',       label: 'Hero',        icon: Home },
+    { id: 'about',      label: 'About',       icon: User },
+    { id: 'experience', label: 'Experience',  icon: Award },
+    { id: 'projects',   label: 'Projects',    icon: Briefcase },
+    { id: 'contact',    label: 'Contact',     icon: Mail },
+    { id: 'messages',   label: 'Messages',    icon: MessageSquare },
 ];
 
 const AdminNav = ({ active, onSelect, unreadCount = 0 }) => {

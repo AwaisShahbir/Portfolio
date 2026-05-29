@@ -74,10 +74,11 @@ const Navbar = () => {
                     </div>
                 </motion.div>
 
-                <div className="nav-links" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-                    <a href="#about" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>ABOUT</a>
-                    <a href="#projects" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-secondary)'; e.target.style.textShadow = '0 0 10px rgba(167,139,250,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>WORK</a>
-                    <a href="#contact" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-gold)'; e.target.style.textShadow = '0 0 10px rgba(251,191,36,0.5)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>CONTACT</a>
+                <div className="nav-links" style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+                    <a href="#about" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>ABOUT</a>
+                    <a href="#experience" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-secondary)'; e.target.style.textShadow = '0 0 10px rgba(167,139,250,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>EXPERIENCE</a>
+                    <a href="#projects" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-gold)'; e.target.style.textShadow = '0 0 10px rgba(251,191,36,0.5)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>WORK</a>
+                    <a href="#contact" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>CONTACT</a>
                     {aboutData?.cvUrl && (
                         <a 
                             href={aboutData.cvUrl} 
@@ -86,9 +87,9 @@ const Navbar = () => {
                             style={{ 
                                 transition: 'all 0.3s', 
                                 fontWeight: 700, 
-                                fontSize: '0.85rem', 
+                                fontSize: '0.8rem', 
                                 color: '#fff', 
-                                letterSpacing: '1px',
+                                letterSpacing: '1.5px',
                                 background: 'rgba(129, 140, 248, 0.1)',
                                 border: '1px solid rgba(129, 140, 248, 0.3)',
                                 padding: '0.35rem 0.85rem',
