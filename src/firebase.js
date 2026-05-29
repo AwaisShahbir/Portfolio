@@ -3,8 +3,6 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-// ─── PASTE YOUR FIREBASE CONFIG HERE ──────────────────────────────────────────
-// Firebase Console → Project Settings → Your Apps → Web App → Config object
 const firebaseConfig = {
   apiKey: "AIzaSyDzy9V4ZOdzatM8N5TZ1PXPa7Ha-GAxsKw",
   authDomain: "portfolio-a63a3.firebaseapp.com",
@@ -14,7 +12,6 @@ const firebaseConfig = {
   appId: "1:54615898299:web:21d621d93dc996a05a119e",
   measurementId: "G-D00TGWR2KK"
 };
-// ──────────────────────────────────────────────────────────────────────────────
 
 const app = initializeApp(firebaseConfig);
 

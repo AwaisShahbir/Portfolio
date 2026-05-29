@@ -16,6 +16,7 @@ const ContactEditor = () => {
     const [form, setForm] = useState({ name: '', email: '', phone: '', location: '', linkedin: '', github: '', sectionTitle: '', sectionSubtitle: '' });
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (data) setForm({
@@ -29,9 +30,17 @@ const ContactEditor = () => {
 
     const handleSave = async () => {
         setSaving(true);
-        await setDocument('contact_info', 'main', form);
-        setSaving(false); setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
+        setError('');
+        try {
+            await setDocument('contact_info', 'main', form);
+            setSaved(true);
+            setTimeout(() => setSaved(false), 3000);
+        } catch (err) {
+            console.error('Contact info save error:', err);
+            setError(`Save failed: ${err.message}. Verify Firestore database is created and Security Rules allow writes.`);
+        } finally {
+            setSaving(false);
+        }
     };
 
     if (loading) return <LoadingSpinner />;
@@ -65,7 +74,13 @@ const ContactEditor = () => {
                 </div>
             </div>
 
-            <div className="admin-editor-footer">
+            <div className="admin-editor-footer" style={{ flexDirection: 'column', alignItems: 'flex-end', gap: '1rem' }}>
+                {error && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                        style={{ width: '100%', padding: '0.75rem 1.25rem', borderRadius: '10px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5', fontSize: '0.875rem' }}>
+                        ⚠️ {error}
+                    </motion.div>
+                )}
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleSave} className="admin-save-btn" disabled={saving}>
                     {saving ? 'Saving…' : saved ? '✅ Saved!' : 'Save Changes'}
                 </motion.button>

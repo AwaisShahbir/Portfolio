@@ -23,6 +23,7 @@ const AboutEditor = () => {
     const [uploadError, setUploadError] = useState('');
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (data) { 
@@ -52,21 +53,29 @@ const AboutEditor = () => {
             setSaved(false);
         } catch (err) {
             console.error('CV upload error:', err);
-            setUploadError(`Upload failed: ${err.message}`);
+            setUploadError(`Upload failed: ${err.message}. (Make sure Firebase Storage is enabled in Console and rules allow writes).`);
         } finally {
             setUploadingCv(false);
         }
     };
 
     const addSkill = () => setSkills(s => [...s, { name: 'New Skill', icon: 'Code2', color: 'var(--accent-primary)' }]);
-    const removeSkill = (i) => setSkills(s => s.filter((_, idx) => idx !== i));
-    const updateSkill = (i, key, val) => setSkills(s => s.map((sk, idx) => idx === i ? { ...sk, [key]: val } : sk));
+    const removeSkill = (i) => setSkills(s => setSaved(false) || s.filter((_, idx) => idx !== i));
+    const updateSkill = (i, key, val) => setSkills(s => setSaved(false) || s.map((sk, idx) => idx === i ? { ...sk, [key]: val } : sk));
 
     const handleSave = async () => {
         setSaving(true);
-        await setDocument('about', 'main', { bio, skills, cvUrl });
-        setSaving(false); setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
+        setError('');
+        try {
+            await setDocument('about', 'main', { bio, skills, cvUrl });
+            setSaved(true);
+            setTimeout(() => setSaved(false), 3000);
+        } catch (err) {
+            console.error('About section save error:', err);
+            setError(`Save failed: ${err.message}. Please verify Firestore is created and Security Rules permit writes.`);
+        } finally {
+            setSaving(false);
+        }
     };
 
     if (loading) return <LoadingSpinner />;
@@ -170,7 +179,13 @@ const AboutEditor = () => {
                 </button>
             </div>
 
-            <div className="admin-editor-footer">
+            <div className="admin-editor-footer" style={{ flexDirection: 'column', alignItems: 'flex-end', gap: '1rem' }}>
+                {error && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                        style={{ width: '100%', padding: '0.75rem 1.25rem', borderRadius: '10px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5', fontSize: '0.875rem' }}>
+                        ⚠️ {error}
+                    </motion.div>
+                )}
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} onClick={handleSave} className="admin-save-btn" disabled={saving}>
                     {saving ? 'Saving…' : saved ? '✅ Saved!' : 'Save Changes'}
                 </motion.button>

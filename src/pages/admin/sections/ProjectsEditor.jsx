@@ -66,17 +66,32 @@ const ProjectsEditor = () => {
     const { docs: projects, loading } = useCollection('projects', 'order');
     const [modal, setModal] = useState(null); // null | 'new' | project object
     const [deleting, setDeleting] = useState(null);
+    const [error, setError] = useState('');
 
     const handleSave = async (data) => {
-        if (modal?.id) { await updateDocument('projects', modal.id, data); }
-        else { await addDocument('projects', data); }
-        setModal(null);
+        setError('');
+        try {
+            if (modal?.id) { await updateDocument('projects', modal.id, data); }
+            else { await addDocument('projects', data); }
+            setModal(null);
+        } catch (err) {
+            console.error('Projects save error:', err);
+            setError(`Save failed: ${err.message}. Verify Firestore permissions in Console.`);
+        }
     };
 
     const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this project?")) return;
+        setError('');
         setDeleting(id);
-        await deleteDocument('projects', id);
-        setDeleting(null);
+        try {
+            await deleteDocument('projects', id);
+        } catch (err) {
+            console.error('Projects delete error:', err);
+            setError(`Delete failed: ${err.message}. Verify Firestore permissions in Console.`);
+        } finally {
+            setDeleting(null);
+        }
     };
 
     if (loading) return <LoadingSpinner />;
@@ -94,6 +109,12 @@ const ProjectsEditor = () => {
             </div>
 
             <div className="admin-editor-body">
+                {error && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                        style={{ padding: '0.75rem 1.25rem', borderRadius: '10px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', color: '#fca5a5', fontSize: '0.875rem', marginBottom: '1rem' }}>
+                        ⚠️ {error}
+                    </motion.div>
+                )}
                 {projects.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)', border: '1px dashed var(--glass-border)', borderRadius: '16px' }}>
                         <p style={{ marginBottom: '1rem' }}>No projects yet.</p>
