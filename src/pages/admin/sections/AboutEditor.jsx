@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, GripVertical } from 'lucide-react';
+import { Plus, Trash2, FileDown, Upload, Eye } from 'lucide-react';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useDocument, setDocument } from '../../../hooks/useFirestore';
 import { ICON_OPTIONS, getIcon } from '../../../utils/iconMap.jsx';
+import { storage } from '../../../firebase';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const COLOR_OPTIONS = [
@@ -16,12 +18,45 @@ const AboutEditor = () => {
     const { data, loading } = useDocument('about', 'main');
     const [bio, setBio] = useState('');
     const [skills, setSkills] = useState([]);
+    const [cvUrl, setCvUrl] = useState('');
+    const [uploadingCv, setUploadingCv] = useState(false);
+    const [uploadError, setUploadError] = useState('');
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
 
     useEffect(() => {
-        if (data) { setBio(data.bio || ''); setSkills(data.skills || []); }
+        if (data) { 
+            setBio(data.bio || ''); 
+            setSkills(data.skills || []); 
+            setCvUrl(data.cvUrl || '');
+        }
     }, [data]);
+
+    const handleCvUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.type !== 'application/pdf') {
+            setUploadError('Only PDF files are supported.');
+            return;
+        }
+
+        setUploadingCv(true);
+        setUploadError('');
+        try {
+            const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+            const storageRef = ref(storage, `resumes/${fileName}`);
+            await uploadBytes(storageRef, file);
+            const downloadUrl = await getDownloadURL(storageRef);
+            setCvUrl(downloadUrl);
+            setSaved(false);
+        } catch (err) {
+            console.error('CV upload error:', err);
+            setUploadError(`Upload failed: ${err.message}`);
+        } finally {
+            setUploadingCv(false);
+        }
+    };
 
     const addSkill = () => setSkills(s => [...s, { name: 'New Skill', icon: 'Code2', color: 'var(--accent-primary)' }]);
     const removeSkill = (i) => setSkills(s => s.filter((_, idx) => idx !== i));
@@ -29,7 +64,7 @@ const AboutEditor = () => {
 
     const handleSave = async () => {
         setSaving(true);
-        await setDocument('about', 'main', { bio, skills });
+        await setDocument('about', 'main', { bio, skills, cvUrl });
         setSaving(false); setSaved(true);
         setTimeout(() => setSaved(false), 3000);
     };
@@ -40,7 +75,7 @@ const AboutEditor = () => {
         <div className="admin-editor">
             <div className="admin-editor-header">
                 <h2>👤 About Section</h2>
-                <p>Edit your bio and manage your skill cards.</p>
+                <p>Edit your bio, manage your skill cards, and upload your CV / Resume.</p>
             </div>
 
             <div className="admin-editor-body">
@@ -51,6 +86,50 @@ const AboutEditor = () => {
                         value={bio} onChange={e => { setBio(e.target.value); setSaved(false); }}
                         rows={5} className="form-input" style={{ resize: 'vertical', fontSize: '0.95rem' }}
                     />
+                </div>
+
+                {/* CV / Resume Option */}
+                <div className="admin-section-divider">📄 CV / Resume Document</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', background: 'rgba(129,140,248,0.03)', border: '1px solid var(--glass-border)', borderRadius: '14px', padding: '1.25rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                        <label style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>CV / Resume File Link</label>
+                        <input
+                            type="text" value={cvUrl} onChange={e => { setCvUrl(e.target.value); setSaved(false); }}
+                            className="form-input" placeholder="https://... or upload a local PDF below"
+                            style={{ fontSize: '0.875rem' }}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.4rem' }}>
+                        <label style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Upload Local PDF</label>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <input
+                                type="file" accept=".pdf" onChange={handleCvUpload}
+                                style={{ display: 'none' }} id="cv-upload-input" disabled={uploadingCv}
+                            />
+                            <label
+                                htmlFor="cv-upload-input"
+                                style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                                    padding: '0.65rem 1.25rem', borderRadius: '10px',
+                                    border: '1px solid rgba(129,140,248,0.3)', background: 'rgba(129,140,248,0.06)',
+                                    color: 'var(--accent-primary)', fontSize: '0.8rem', fontWeight: 600,
+                                    cursor: 'pointer', opacity: uploadingCv ? 0.6 : 1, transition: 'all 0.2s'
+                                }}
+                            >
+                                <Upload size={14} />
+                                {uploadingCv ? 'Uploading PDF...' : 'Choose PDF File'}
+                            </label>
+                            {cvUrl && (
+                                <a
+                                    href={cvUrl} target="_blank" rel="noreferrer"
+                                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.8rem', color: 'var(--accent-gold)', fontWeight: 600, textDecoration: 'none' }}
+                                >
+                                    <Eye size={13} /> View File ↗
+                                </a>
+                            )}
+                        </div>
+                        {uploadError && <span style={{ fontSize: '0.75rem', color: '#fca5a5', marginTop: '0.2rem' }}>{uploadError}</span>}
+                    </div>
                 </div>
 
                 {/* Skills */}

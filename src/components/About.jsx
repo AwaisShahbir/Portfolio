@@ -4,6 +4,7 @@ import Antigravity from './Antigravity';
 import LoadingSpinner from './LoadingSpinner';
 import { useDocument } from '../hooks/useFirestore';
 import { getIcon } from '../utils/iconMap.jsx';
+import { FileDown } from 'lucide-react';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -41,7 +42,36 @@ const About = () => {
                         </h2>
                     </Antigravity>
                     {loading ? <LoadingSpinner text="" /> : (
-                        <p className="about-desc">{data?.bio || ''}</p>
+                        <>
+                            <p className="about-desc" style={{ marginBottom: data?.cvUrl ? '2rem' : '0' }}>{data?.bio || ''}</p>
+                            {data?.cvUrl && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 15 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.25 }}
+                                    style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem' }}
+                                >
+                                    <a
+                                        href={data.cvUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn-primary"
+                                        style={{
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            gap: '0.6rem',
+                                            fontSize: '0.9rem',
+                                            padding: '0.85rem 2.25rem',
+                                            textDecoration: 'none',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        <FileDown size={17} /> Download CV / Resume
+                                    </a>
+                                </motion.div>
+                            )}
+                        </>
                     )}
                 </motion.div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { useDocument } from '../hooks/useFirestore';
 
 const Navbar = () => {
     const [hidden, setHidden] = useState(false);
@@ -13,6 +14,8 @@ const Navbar = () => {
             setHidden(false);
         }
     });
+
+    const { data: aboutData } = useDocument('about', 'main');
 
     return (
         <motion.nav
@@ -75,6 +78,36 @@ const Navbar = () => {
                     <a href="#about" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>ABOUT</a>
                     <a href="#projects" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-secondary)'; e.target.style.textShadow = '0 0 10px rgba(167,139,250,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>WORK</a>
                     <a href="#contact" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-gold)'; e.target.style.textShadow = '0 0 10px rgba(251,191,36,0.5)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>CONTACT</a>
+                    {aboutData?.cvUrl && (
+                        <a 
+                            href={aboutData.cvUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            style={{ 
+                                transition: 'all 0.3s', 
+                                fontWeight: 700, 
+                                fontSize: '0.85rem', 
+                                color: '#fff', 
+                                letterSpacing: '1px',
+                                background: 'rgba(129, 140, 248, 0.1)',
+                                border: '1px solid rgba(129, 140, 248, 0.3)',
+                                padding: '0.35rem 0.85rem',
+                                borderRadius: '50px'
+                            }} 
+                            onMouseOver={e => { 
+                                e.target.style.background = 'rgba(129, 140, 248, 0.2)'; 
+                                e.target.style.borderColor = 'var(--accent-primary)'; 
+                                e.target.style.boxShadow = '0 0 10px rgba(129,140,248,0.3)'; 
+                            }} 
+                            onMouseOut={e => { 
+                                e.target.style.background = 'rgba(129, 140, 248, 0.1)'; 
+                                e.target.style.borderColor = 'rgba(129, 140, 248, 0.3)'; 
+                                e.target.style.boxShadow = 'none'; 
+                            }}
+                        >
+                            RESUME
+                        </a>
+                    )}
                 </div>
             </div>
         </motion.nav>
