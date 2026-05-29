@@ -22,12 +22,12 @@ const Navbar = () => {
             className="navbar"
         >
             <div className="nav-inner" style={{
-                background: 'linear-gradient(90deg, rgba(8, 12, 20, 0.85) 0%, rgba(20, 15, 30, 0.85) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(0, 240, 255, 0.2)',
-                borderBottom: '1px solid rgba(255, 0, 255, 0.2)',
-                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 240, 255, 0.1) inset',
+                background: 'linear-gradient(90deg, rgba(11, 15, 26, 0.88) 0%, rgba(17, 12, 35, 0.88) 100%)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(129, 140, 248, 0.18)',
+                borderBottom: '1px solid rgba(167, 139, 250, 0.18)',
+                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 18px rgba(99, 102, 241, 0.08) inset',
                 borderRadius: '50px',
                 padding: '0.75rem 2rem',
                 display: 'flex',
@@ -40,8 +40,15 @@ const Navbar = () => {
                 {/* Professional Image Logo */}
                 <motion.div
                     initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-                    className="group relative cursor-pointer"
-                    style={{ display: 'flex', alignItems: 'center' }}
+                    style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', position: 'relative' }}
+                    onMouseEnter={e => {
+                        const glow = e.currentTarget.querySelector('.logo-glow');
+                        if (glow) glow.style.opacity = '0.4';
+                    }}
+                    onMouseLeave={e => {
+                        const glow = e.currentTarget.querySelector('.logo-glow');
+                        if (glow) glow.style.opacity = '0';
+                    }}
                 >
                     <div style={{ position: 'relative', width: '45px', height: '45px' }}>
                         <img 
@@ -51,23 +58,23 @@ const Navbar = () => {
                                 width: '100%', 
                                 height: '100%', 
                                 objectFit: 'contain',
-                                filter: 'drop-shadow(0 0 8px rgba(0, 240, 255, 0.5))',
+                                filter: 'drop-shadow(0 0 8px rgba(129, 140, 248, 0.55))',
                                 position: 'relative',
                                 zIndex: 2
                             }} 
                         />
                         {/* Hover Glow */}
-                        <div style={{
-                            position: 'absolute', inset: -5, background: 'var(--accent-cyan)', filter: 'blur(15px)', opacity: 0,
+                        <div className="logo-glow" style={{
+                            position: 'absolute', inset: -5, background: 'var(--accent-primary)', filter: 'blur(15px)', opacity: 0,
                             transition: 'opacity 0.3s', zIndex: 0, borderRadius: '50%'
-                        }} className="group-hover:opacity-40" />
+                        }} />
                     </div>
                 </motion.div>
 
                 <div className="nav-links" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-                    <a href="#about" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-cyan)'; e.target.style.textShadow = '0 0 8px var(--accent-cyan)'; }} onMouseOut={e => { e.target.style.color = 'rgba(255,255,255,0.8)'; e.target.style.textShadow = 'none'; }}>ABOUT</a>
-                    <a href="#projects" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-magenta)'; e.target.style.textShadow = '0 0 8px var(--accent-magenta)'; }} onMouseOut={e => { e.target.style.color = 'rgba(255,255,255,0.8)'; e.target.style.textShadow = 'none'; }}>WORK</a>
-                    <a href="#contact" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-cyan)'; e.target.style.textShadow = '0 0 8px var(--accent-cyan)'; }} onMouseOut={e => { e.target.style.color = 'rgba(255,255,255,0.8)'; e.target.style.textShadow = 'none'; }}>CONTACT</a>
+                    <a href="#about" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>ABOUT</a>
+                    <a href="#projects" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-secondary)'; e.target.style.textShadow = '0 0 10px rgba(167,139,250,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>WORK</a>
+                    <a href="#contact" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.9rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-gold)'; e.target.style.textShadow = '0 0 10px rgba(251,191,36,0.5)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>CONTACT</a>
                 </div>
             </div>
         </motion.nav>

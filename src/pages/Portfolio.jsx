@@ -10,7 +10,13 @@ const Portfolio = () => {
     const isEasterEggActive = useEasterEgg();
 
     return (
-        <div className={`app-container relative ${isEasterEggActive ? 'hue-rotate-180 invert transition-all duration-1000' : 'transition-all duration-1000'}`}>
+        <div
+            className="app-container"
+            style={{
+                filter: isEasterEggActive ? 'hue-rotate(180deg) invert(1)' : 'none',
+                transition: 'filter 1s ease'
+            }}
+        >
             <Navbar />
             <Hero />
             <About />
