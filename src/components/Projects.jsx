@@ -11,7 +11,7 @@ const ProjectCard = ({ title, subtitle, description, tech, link }) => {
 
     const handleMouseMove = ({ currentTarget, clientX, clientY }) => {
         const { left, top, width, height } = currentTarget.getBoundingClientRect();
-        x.set((clientX - left) / width - 0.5) * 20;
+        x.set(((clientX - left) / width - 0.5) * 20);
         y.set(((clientY - top) / height - 0.5) * -20);
     };
 

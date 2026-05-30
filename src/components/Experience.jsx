@@ -17,6 +17,14 @@ const cardVariants = {
 
 const Experience = () => {
     const { docs: experiences, loading } = useCollection('experience', 'order');
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    React.useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 640);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     return (
         <section id="experience" className="section-padding relative">
@@ -60,7 +68,7 @@ const Experience = () => {
                         {/* Timeline vertical bar */}
                         <div style={{
                             position: 'absolute',
-                            left: '24px',
+                            left: isMobile ? '19px' : '24px',
                             top: '8px',
                             bottom: '8px',
                             width: '2px',
@@ -74,7 +82,7 @@ const Experience = () => {
                                 variants={cardVariants}
                                 style={{
                                     display: 'flex',
-                                    gap: '2rem',
+                                    gap: isMobile ? '1rem' : '2rem',
                                     position: 'relative',
                                     zIndex: 1
                                 }}
@@ -83,8 +91,8 @@ const Experience = () => {
                                 <motion.div
                                     whileHover={{ scale: 1.2, backgroundColor: 'var(--accent-secondary)' }}
                                     style={{
-                                        width: '50px',
-                                        height: '50px',
+                                        width: isMobile ? '40px' : '50px',
+                                        height: isMobile ? '40px' : '50px',
                                         borderRadius: '50%',
                                         background: 'rgba(11,15,26,0.95)',
                                         border: '2px solid var(--accent-primary)',

@@ -652,6 +652,11 @@ a {
     padding: 0 1.25rem;
   }
 
+  .btn-primary {
+    padding: 0.75rem 1.75rem !important;
+    font-size: 0.9rem !important;
+  }
+
   .section-padding {
     padding: 4.5rem 0;
     min-height: auto;

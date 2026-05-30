@@ -18,6 +18,14 @@ const itemVariants = {
 const About = () => {
     const { data, loading } = useDocument('about', 'main');
     const skills = data?.skills || [];
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    React.useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     return (
         <section id="about" className="section-padding relative">
@@ -81,24 +89,31 @@ const About = () => {
                         whileInView="visible" viewport={{ once: true, margin: '-50px' }}
                         className="skills-grid"
                     >
-                        {skills.map((skill, index) => (
-                            <motion.div key={index} variants={itemVariants}>
-                                <Antigravity delay={index * 0.2} floatSpeed={Math.random() * 0.5 + 0.8} moveRange={20}>
-                                    <motion.div
-                                        className="glass-panel skill-card"
-                                        whileHover={{ scale: 1.1, rotateZ: (index % 2 === 0 ? 5 : -5) }}
-                                        transition={{ type: 'spring', stiffness: 300 }}
-                                    >
-                                        <div style={{ color: skill.color, transition: 'transform 0.3s' }}>
-                                            {getIcon(skill.icon, 28)}
-                                        </div>
-                                        <span style={{ fontSize: '0.75rem', fontWeight: 600, textAlign: 'center', lineHeight: 1.3 }}>
-                                            {skill.name}
-                                        </span>
-                                    </motion.div>
-                                </Antigravity>
-                            </motion.div>
-                        ))}
+                        {skills.map((skill, index) => {
+                            const cardContent = (
+                                <motion.div
+                                    className="glass-panel skill-card"
+                                    whileHover={{ scale: 1.1, rotateZ: (index % 2 === 0 ? 5 : -5) }}
+                                    transition={{ type: 'spring', stiffness: 300 }}
+                                >
+                                    <div style={{ color: skill.color, transition: 'transform 0.3s' }}>
+                                        {getIcon(skill.icon, 28)}
+                                    </div>
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 600, textAlign: 'center', lineHeight: 1.3 }}>
+                                        {skill.name}
+                                    </span>
+                                </motion.div>
+                            );
+                            return (
+                                <motion.div key={index} variants={itemVariants}>
+                                    {isMobile ? cardContent : (
+                                        <Antigravity delay={index * 0.2} floatSpeed={Math.random() * 0.5 + 0.8} moveRange={20}>
+                                            {cardContent}
+                                        </Antigravity>
+                                    )}
+                                </motion.div>
+                            );
+                        })}
                     </motion.div>
                 )}
             </div>
