@@ -42,7 +42,7 @@ const Navbar = () => {
                 maxWidth: '1200px',
                 margin: '0 auto'
             }}>
-                {/* Professional Image Logo */}
+                {/* Professional Image Logo & Brand Name */}
                 <motion.div
                     initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
                     style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', position: 'relative' }}
@@ -55,7 +55,7 @@ const Navbar = () => {
                         if (glow) glow.style.opacity = '0';
                     }}
                 >
-                    <div style={{ position: 'relative', width: '45px', height: '45px' }}>
+                    <div style={{ position: 'relative', width: '42px', height: '42px', display: 'flex', alignItems: 'center' }}>
                         <img 
                             src="/professional_logo.png" 
                             alt="Logo" 
@@ -74,17 +74,35 @@ const Navbar = () => {
                             transition: 'opacity 0.3s', zIndex: 0, borderRadius: '50%'
                         }} />
                     </div>
+                    <span className="brand-text" style={{
+                        marginLeft: '0.85rem',
+                        fontFamily: 'Syne, sans-serif',
+                        fontWeight: 800,
+                        fontSize: '0.95rem',
+                        letterSpacing: '2.5px',
+                        background: 'linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        textShadow: '0 0 20px rgba(129, 140, 248, 0.15)',
+                        whiteSpace: 'nowrap'
+                    }}>
+                        AWAIS SHABBIR
+                    </span>
                 </motion.div>
 
-                <div className="nav-links" style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+                {/* Center Section Navigation Links */}
+                <div className="nav-links-center" style={{ display: 'flex', gap: '2.5rem', alignItems: 'center', margin: '0 auto' }}>
                     <a href="#about" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>ABOUT</a>
                     <a href="#experience" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-secondary)'; e.target.style.textShadow = '0 0 10px rgba(167,139,250,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>EXPERIENCE</a>
                     <a href="#projects" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-gold)'; e.target.style.textShadow = '0 0 10px rgba(251,191,36,0.5)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>WORK</a>
                     <a href="#contact" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>CONTACT</a>
-                    
+                </div>
+
+                {/* Right Call-To-Action & Social Links Container */}
+                <div className="nav-right" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
                     {/* Social Icon Buttons */}
                     {(contactData?.linkedin || contactData?.github) && (
-                        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1.25rem', marginRight: '0.25rem', height: '20px' }}>
+                        <div style={{ display: 'flex', gap: '1.1rem', alignItems: 'center' }}>
                             {contactData?.linkedin && (
                                 <motion.a 
                                     href={contactData.linkedin.startsWith('http') ? contactData.linkedin : `https://${contactData.linkedin}`} 
@@ -95,7 +113,7 @@ const Navbar = () => {
                                     onMouseOver={e => e.currentTarget.style.color = 'var(--accent-primary)'}
                                     onMouseOut={e => e.currentTarget.style.color = 'rgba(238,242,255,0.75)'}
                                 >
-                                    <Linkedin size={18} />
+                                    <Linkedin size={17} />
                                 </motion.a>
                             )}
                             {contactData?.github && (
@@ -108,7 +126,7 @@ const Navbar = () => {
                                     onMouseOver={e => e.currentTarget.style.color = 'var(--accent-secondary)'}
                                     onMouseOut={e => e.currentTarget.style.color = 'rgba(238,242,255,0.75)'}
                                 >
-                                    <Github size={18} />
+                                    <Github size={17} />
                                 </motion.a>
                             )}
                         </div>
