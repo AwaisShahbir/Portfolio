@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
  * Antigravity wrapper that applies slow vertical float + horizontal drift.
  * Randomizes per instance to look organic.
  */
-const Antigravity = ({ children, delay = 0, floatSpeed = 1, moveRange = 20, className = "" }) => {
+const Antigravity = ({ children, delay = 0, floatSpeed = 1, moveRange = 20, className = "", style = {} }) => {
     // We use keyframes to simulate continuous multi-axis fluid movement
     const randomY = Math.random() * moveRange;
     const randomX = Math.random() * (moveRange / 2);
@@ -14,6 +14,7 @@ const Antigravity = ({ children, delay = 0, floatSpeed = 1, moveRange = 20, clas
     return (
         <motion.div
             className={className}
+            style={style}
             initial={{ y: 0, x: 0 }}
             animate={{
                 y: [0, -randomY, 0],

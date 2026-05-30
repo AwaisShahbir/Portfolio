@@ -646,4 +646,146 @@ a {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
-}
+}
+
+/* ─── Mobile Responsiveness (Screens < 768px) ─────────────────── */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .section-padding {
+    padding: 4.5rem 0;
+    min-height: auto;
+  }
+
+  /* Navbar */
+  .navbar {
+    padding: 0.75rem 1rem !important;
+  }
+
+  .nav-inner {
+    padding: 0.5rem 1.25rem !important;
+    border-radius: 35px !important;
+  }
+
+  .brand-text {
+    font-size: 0.8rem !important;
+    letter-spacing: 1.5px !important;
+    margin-left: 0.5rem !important;
+  }
+
+  .nav-links-center {
+    display: none !important; /* Hide center links on mobile to prevent overflow */
+  }
+
+  .nav-right {
+    gap: 0.85rem !important;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    min-height: auto;
+    padding-top: 7.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    margin-top: 0 !important;
+    text-align: center;
+  }
+
+  .hero-content {
+    align-items: center !important;
+  }
+
+  .hero-title-stagger {
+    justify-content: center !important;
+  }
+
+  .hero-letter {
+    font-size: clamp(2rem, 6vw, 3.8rem) !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 3.8rem) !important;
+  }
+
+  .hero-desc {
+    margin: 0 auto 2rem auto !important;
+    font-size: 0.95rem !important;
+    line-height: 1.65 !important;
+  }
+
+  .hero-subtitle {
+    justify-content: center !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 3px !important;
+  }
+
+  /* Skill Card */
+  .skills-grid {
+    gap: 1.25rem !important;
+    margin-top: 2.5rem !important;
+  }
+
+  .skill-card {
+    width: 100px !important;
+    height: 100px !important;
+    gap: 0.5rem !important;
+  }
+
+  .skill-card span {
+    font-size: 0.65rem !important;
+  }
+
+  /* Project Card */
+  .project-card {
+    min-height: 380px !important;
+  }
+
+  .project-inner {
+    padding: 2.25rem 1.5rem !important;
+  }
+
+  .project-title {
+    font-size: 1.45rem !important;
+  }
+
+  .project-desc {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Contact layout */
+  .contact-layout {
+    gap: 2rem !important;
+  }
+
+  .contact-item {
+    padding: 1.25rem !important;
+    gap: 1.15rem !important;
+  }
+
+  .contact-icon {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .contact-form {
+    padding: 1.75rem !important;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 4rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+}
+

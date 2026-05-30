@@ -104,7 +104,7 @@ const Hero = () => {
                     transition={{ delay: 0.5, duration: 1.2, type: 'spring' }}
                 >
                     <Antigravity moveRange={20} floatSpeed={1.5}>
-                        <div style={{ position: 'relative', width: '400px', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ position: 'relative', width: 'clamp(280px, 85vw, 400px)', height: 'clamp(280px, 85vw, 400px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             {/* Outer glow pulse */}
                             <motion.div
                                 animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -124,7 +124,7 @@ const Hero = () => {
                                 style={{ position: 'absolute', inset: 8, borderRadius: '50%', border: '1px dashed rgba(129,140,248,0.3)', zIndex: 2 }}
                             />
                             {/* Profile circle */}
-                            <div style={{ position: 'relative', width: '340px', height: '340px', borderRadius: '50%', overflow: 'hidden', zIndex: 3, boxShadow: '0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(167,139,250,0.18), inset 0 0 30px rgba(0,0,0,0.3)' }}
+                            <div style={{ position: 'relative', width: 'clamp(240px, 72vw, 340px)', height: 'clamp(240px, 72vw, 340px)', borderRadius: '50%', overflow: 'hidden', zIndex: 3, boxShadow: '0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(167,139,250,0.18), inset 0 0 30px rgba(0,0,0,0.3)' }}
                                 onMouseEnter={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.45'; if (img) img.style.transform = 'scale(1.08)'; }}
                                 onMouseLeave={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.15'; if (img) img.style.transform = 'scale(1)'; }}
                             >
