@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if the user is authenticated (Admin)
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Public collections (read-only for guests, writeable for admin)
+    match /hero/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /about/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /contact_info/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /projects/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /experience/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Messages Inbox (visitors can submit/create messages, only admins can view or manage them)
+    match /messages/{document} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

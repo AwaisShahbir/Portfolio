@@ -1,5 +1,9 @@
 {
+  "firestore": {
+    "rules": "firestore.rules"
+  },
   "hosting": {
+    "site": "portfolio-a63a3",
     "public": "dist",
     "ignore": [
       "firebase.json",
