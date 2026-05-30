@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useDocument } from '../hooks/useFirestore';
+import { Linkedin, Github } from 'lucide-react';
 
 const Navbar = () => {
     const [hidden, setHidden] = useState(false);
@@ -16,6 +17,7 @@ const Navbar = () => {
     });
 
     const { data: aboutData } = useDocument('about', 'main');
+    const { data: contactData } = useDocument('contact_info', 'main');
 
     return (
         <motion.nav
@@ -79,9 +81,42 @@ const Navbar = () => {
                     <a href="#experience" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-secondary)'; e.target.style.textShadow = '0 0 10px rgba(167,139,250,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>EXPERIENCE</a>
                     <a href="#projects" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-gold)'; e.target.style.textShadow = '0 0 10px rgba(251,191,36,0.5)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>WORK</a>
                     <a href="#contact" style={{ transition: 'all 0.3s', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(238,242,255,0.75)', letterSpacing: '1.5px' }} onMouseOver={e => { e.target.style.color = 'var(--accent-primary)'; e.target.style.textShadow = '0 0 10px rgba(129,140,248,0.6)'; }} onMouseOut={e => { e.target.style.color = 'rgba(238,242,255,0.75)'; e.target.style.textShadow = 'none'; }}>CONTACT</a>
+                    
+                    {/* Social Icon Buttons */}
+                    {(contactData?.linkedin || contactData?.github) && (
+                        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1.25rem', marginRight: '0.25rem', height: '20px' }}>
+                            {contactData?.linkedin && (
+                                <motion.a 
+                                    href={contactData.linkedin.startsWith('http') ? contactData.linkedin : `https://${contactData.linkedin}`} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    whileHover={{ scale: 1.2, y: -2 }}
+                                    style={{ color: 'rgba(238,242,255,0.75)', display: 'flex', transition: 'color 0.2s' }}
+                                    onMouseOver={e => e.currentTarget.style.color = 'var(--accent-primary)'}
+                                    onMouseOut={e => e.currentTarget.style.color = 'rgba(238,242,255,0.75)'}
+                                >
+                                    <Linkedin size={18} />
+                                </motion.a>
+                            )}
+                            {contactData?.github && (
+                                <motion.a 
+                                    href={contactData.github.startsWith('http') ? contactData.github : `https://${contactData.github}`} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    whileHover={{ scale: 1.2, y: -2 }}
+                                    style={{ color: 'rgba(238,242,255,0.75)', display: 'flex', transition: 'color 0.2s' }}
+                                    onMouseOver={e => e.currentTarget.style.color = 'var(--accent-secondary)'}
+                                    onMouseOut={e => e.currentTarget.style.color = 'rgba(238,242,255,0.75)'}
+                                >
+                                    <Github size={18} />
+                                </motion.a>
+                            )}
+                        </div>
+                    )}
+
                     {aboutData?.cvUrl && (
                         <a 
-                            href={aboutData.cvUrl} 
+                            href={aboutData.cvUrl.startsWith('http') ? aboutData.cvUrl : `https://${aboutData.cvUrl}`} 
                             target="_blank" 
                             rel="noopener noreferrer" 
                             style={{ 

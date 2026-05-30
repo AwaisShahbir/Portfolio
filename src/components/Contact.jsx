@@ -141,10 +141,10 @@ const Contact = () => {
                     <div>© {new Date().getFullYear()} {data?.name || 'Awais Shabbir'}. All rights reserved.</div>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         {data?.linkedin && (
-                            <motion.a whileHover={{ y: -2, color: 'var(--accent-primary)' }} href={data.linkedin} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>LinkedIn <ExternalLink size={14} /></motion.a>
+                            <motion.a whileHover={{ y: -2, color: 'var(--accent-primary)' }} href={data.linkedin.startsWith('http') ? data.linkedin : `https://${data.linkedin}`} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>LinkedIn <ExternalLink size={14} /></motion.a>
                         )}
                         {data?.github && (
-                            <motion.a whileHover={{ y: -2, color: 'var(--accent-primary)' }} href={data.github} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>GitHub <ExternalLink size={14} /></motion.a>
+                            <motion.a whileHover={{ y: -2, color: 'var(--accent-primary)' }} href={data.github.startsWith('http') ? data.github : `https://${data.github}`} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>GitHub <ExternalLink size={14} /></motion.a>
                         )}
                     </div>
                 </div>
