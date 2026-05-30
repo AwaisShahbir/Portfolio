@@ -51,8 +51,8 @@ const INITIAL_PROJECTS = [
 const INITIAL_CONTACT = {
     email: 'awaiskamboh0810@gmail.com',
     phone: '+92 305 4758667',
-    location: 'Pak Arab Society, Lahore',
-    linkedin: 'https://www.linkedin.com/in/awais',
+    location: 'Lahore, Pakistan',
+    linkedin: 'https://www.linkedin.com/in/awais-shabbir-971180277',
     github: 'https://github.com/',
     sectionTitle: "Let's Connect",
     sectionSubtitle: "Got a project in mind or an opportunity? Let's talk.",
