@@ -25,12 +25,21 @@ const AnimatedText = ({ text, className }) => (
 
 const Hero = () => {
     const { scrollY } = useScroll();
-    const yParallax = useTransform(scrollY, [0, 800], [0, 300]);
-    const opacityFade = useTransform(scrollY, [0, 500], [1, 0]);
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    React.useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const yParallax = useTransform(scrollY, [0, 800], isMobile ? [0, 0] : [0, 300]);
+    const opacityFade = useTransform(scrollY, [0, 500], isMobile ? [1, 1] : [1, 0]);
     const { data, loading } = useDocument('hero', 'main');
 
     return (
-        <section id="hero" className="hero-section" style={{ minHeight: '110vh' }}>
+        <section id="hero" className="hero-section" style={{ minHeight: isMobile ? 'auto' : '110vh' }}>
             <div className="bg-glow glow-cyan" style={{ width: 800, height: 800, top: -200, left: -300 }} />
             <div className="bg-glow glow-magenta" style={{ width: 600, height: 600, bottom: -100, right: -100 }} />
 
