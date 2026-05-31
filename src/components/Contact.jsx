@@ -5,6 +5,7 @@ import Antigravity from './Antigravity';
 import LoadingSpinner from './LoadingSpinner';
 import { useDocument, addDocument } from '../hooks/useFirestore';
 import { serverTimestamp } from 'firebase/firestore';
+import useMobile from '../hooks/useMobile';
 
 const listVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } };
 const itemVariants = { hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', bounce: 0.4 } } };
@@ -13,6 +14,7 @@ const Contact = () => {
     const { data, loading } = useDocument('contact_info', 'main');
     const [form, setForm] = useState({ name: '', email: '', message: '' });
     const [status, setStatus] = useState('idle'); // idle | sending | success | error
+    const isMobile = useMobile();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,6 +27,12 @@ const Contact = () => {
         } catch {
             setStatus('error');
         }
+    };
+
+    /** Wraps children in Antigravity on desktop, renders plain on mobile */
+    const MaybeAntigravity = ({ children, ...props }) => {
+        if (isMobile) return <>{children}</>;
+        return <Antigravity {...props}>{children}</Antigravity>;
     };
 
     return (
@@ -54,7 +62,7 @@ const Contact = () => {
                         {loading ? <LoadingSpinner text="" /> : (
                             <>
                                 <motion.div variants={itemVariants}>
-                                    <Antigravity floatSpeed={0.8} moveRange={8}>
+                                    <MaybeAntigravity floatSpeed={0.8} moveRange={8}>
                                         <a href={`mailto:${data?.email}`} className="glass-panel contact-item">
                                             <div className="contact-icon" style={{ background: 'rgba(99,102,241,0.12)', color: 'var(--accent-primary)' }}><Mail size={24} /></div>
                                             <div>
@@ -62,10 +70,10 @@ const Contact = () => {
                                                 <div style={{ fontSize: '1rem', fontWeight: 600 }}>{data?.email}</div>
                                             </div>
                                         </a>
-                                    </Antigravity>
+                                    </MaybeAntigravity>
                                 </motion.div>
                                 <motion.div variants={itemVariants}>
-                                    <Antigravity floatSpeed={1} moveRange={10} delay={0.2}>
+                                    <MaybeAntigravity floatSpeed={1} moveRange={10} delay={0.2}>
                                         <a href={`tel:${data?.phone}`} className="glass-panel contact-item">
                                             <div className="contact-icon" style={{ background: 'rgba(167,139,250,0.12)', color: 'var(--accent-secondary)' }}><Phone size={24} /></div>
                                             <div>
@@ -73,10 +81,10 @@ const Contact = () => {
                                                 <div style={{ fontSize: '1rem', fontWeight: 600 }}>{data?.phone}</div>
                                             </div>
                                         </a>
-                                    </Antigravity>
+                                    </MaybeAntigravity>
                                 </motion.div>
                                 <motion.div variants={itemVariants}>
-                                    <Antigravity floatSpeed={0.9} moveRange={12} delay={0.4}>
+                                    <MaybeAntigravity floatSpeed={0.9} moveRange={12} delay={0.4}>
                                         <div className="glass-panel contact-item" style={{ cursor: 'default' }}>
                                             <div className="contact-icon" style={{ background: 'rgba(251,191,36,0.1)', color: 'var(--accent-gold)' }}><MapPin size={24} /></div>
                                             <div>
@@ -84,7 +92,7 @@ const Contact = () => {
                                                 <div style={{ fontSize: '1rem', fontWeight: 600 }}>{data?.location}</div>
                                             </div>
                                         </div>
-                                    </Antigravity>
+                                    </MaybeAntigravity>
                                 </motion.div>
                             </>
                         )}

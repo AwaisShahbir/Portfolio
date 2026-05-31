@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Hero from '../components/Hero';
 import Navbar from '../components/Navbar';
 import About from '../components/About';
-import Experience from '../components/Experience';
-import Projects from '../components/Projects';
-import Contact from '../components/Contact';
+import LoadingSpinner from '../components/LoadingSpinner';
 import useEasterEgg from '../hooks/useEasterEgg';
+
+// Code splitting: lazy-load below-the-fold sections
+const Experience = React.lazy(() => import('../components/Experience'));
+const Projects = React.lazy(() => import('../components/Projects'));
+const Contact = React.lazy(() => import('../components/Contact'));
 
 const Portfolio = () => {
     const isEasterEggActive = useEasterEgg();
@@ -21,9 +24,11 @@ const Portfolio = () => {
             <Navbar />
             <Hero />
             <About />
-            <Experience />
-            <Projects />
-            <Contact />
+            <Suspense fallback={<LoadingSpinner text="Loading..." />}>
+                <Experience />
+                <Projects />
+                <Contact />
+            </Suspense>
         </div>
     );
 };

@@ -5,6 +5,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { useDocument } from '../hooks/useFirestore';
 import { getIcon } from '../utils/iconMap.jsx';
 import { FileDown } from 'lucide-react';
+import useMobile from '../hooks/useMobile';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -18,14 +19,7 @@ const itemVariants = {
 const About = () => {
     const { data, loading } = useDocument('about', 'main');
     const skills = data?.skills || [];
-    const [isMobile, setIsMobile] = React.useState(false);
-
-    React.useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+    const isMobile = useMobile();
 
     return (
         <section id="about" className="section-padding relative">
@@ -44,11 +38,18 @@ const About = () => {
                     >
                         Who I Am
                     </motion.div>
-                    <Antigravity floatSpeed={2} moveRange={5}>
+                    <div className="about-heading-mobile">
                         <h2 className="section-heading section-heading-lg text-gradient" style={{ marginBottom: '1.5rem' }}>
                             About Me
                         </h2>
-                    </Antigravity>
+                    </div>
+                    <div className="about-heading-desktop">
+                        <Antigravity floatSpeed={2} moveRange={5}>
+                            <h2 className="section-heading section-heading-lg text-gradient" style={{ marginBottom: '1.5rem' }}>
+                                About Me
+                            </h2>
+                        </Antigravity>
+                    </div>
                     {loading ? <LoadingSpinner text="" /> : (
                         <>
                             <p className="about-desc" style={{ marginBottom: data?.cvUrl ? '2rem' : '0' }}>{data?.bio || ''}</p>
@@ -106,11 +107,14 @@ const About = () => {
                             );
                             return (
                                 <motion.div key={index} variants={itemVariants}>
-                                    {isMobile ? cardContent : (
+                                    <div className="skill-card-mobile">
+                                        {cardContent}
+                                    </div>
+                                    <div className="skill-card-desktop">
                                         <Antigravity delay={index * 0.2} floatSpeed={Math.random() * 0.5 + 0.8} moveRange={20}>
                                             {cardContent}
                                         </Antigravity>
-                                    )}
+                                    </div>
                                 </motion.div>
                             );
                         })}

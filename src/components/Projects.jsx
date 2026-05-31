@@ -2,14 +2,16 @@ import React from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import LoadingSpinner from './LoadingSpinner';
 import { useCollection } from '../hooks/useFirestore';
+import useMobile from '../hooks/useMobile';
 
-const ProjectCard = ({ title, subtitle, description, tech, link }) => {
+const ProjectCard = ({ title, subtitle, description, tech, link, isTouchDevice }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
     const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
 
     const handleMouseMove = ({ currentTarget, clientX, clientY }) => {
+        if (isTouchDevice) return; // Skip 3D tilt on touch devices
         const { left, top, width, height } = currentTarget.getBoundingClientRect();
         x.set(((clientX - left) / width - 0.5) * 20);
         y.set(((clientY - top) / height - 0.5) * -20);
@@ -21,9 +23,9 @@ const ProjectCard = ({ title, subtitle, description, tech, link }) => {
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.8, type: 'spring' }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={() => { x.set(0); y.set(0); }}
-            style={{ perspective: 1000, rotateX: mouseYSpring, rotateY: mouseXSpring }}
+            onMouseMove={isTouchDevice ? undefined : handleMouseMove}
+            onMouseLeave={isTouchDevice ? undefined : () => { x.set(0); y.set(0); }}
+            style={isTouchDevice ? { perspective: 'none' } : { perspective: 1000, rotateX: mouseYSpring, rotateY: mouseXSpring }}
             className="glass-panel project-card"
         >
             <div className="project-inner">
@@ -60,13 +62,22 @@ const ProjectCard = ({ title, subtitle, description, tech, link }) => {
 
 const Projects = () => {
     const { docs: projects, loading } = useCollection('projects', 'order');
+    const isMobile = useMobile();
+
+    // Detect touch devices using 'ontouchstart' in window
+    const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window);
 
     return (
         <section id="projects" className="section-padding relative">
-            <motion.div
-                animate={{ rotate: 360 }} transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
-                className="bg-glow glow-orange" style={{ width: 600, height: 600, top: '20%', right: -300 }}
-            />
+            {/* Rotating bg-glow — disabled on mobile */}
+            {isMobile ? (
+                <div className="bg-glow glow-orange" style={{ width: 600, height: 600, top: '20%', right: -300 }} />
+            ) : (
+                <motion.div
+                    animate={{ rotate: 360 }} transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+                    className="bg-glow glow-orange" style={{ width: 600, height: 600, top: '20%', right: -300 }}
+                />
+            )}
             <div className="container">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -87,7 +98,7 @@ const Projects = () => {
                 ) : (
                     <div className="projects-grid">
                         {projects.map(p => (
-                            <ProjectCard key={p.id} {...p} />
+                            <ProjectCard key={p.id} {...p} isTouchDevice={isTouchDevice} />
                         ))}
                     </div>
                 )}

@@ -4,6 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { useCollection } from '../hooks/useFirestore';
 import { Briefcase, Calendar, MapPin } from 'lucide-react';
 import Antigravity from './Antigravity';
+import useMobile from '../hooks/useMobile';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -17,14 +18,7 @@ const cardVariants = {
 
 const Experience = () => {
     const { docs: experiences, loading } = useCollection('experience', 'order');
-    const [isMobile, setIsMobile] = React.useState(false);
-
-    React.useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 640);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+    const isMobile = useMobile();
 
     return (
         <section id="experience" className="section-padding relative">
@@ -37,11 +31,21 @@ const Experience = () => {
                     <div className="section-label" style={{ justifyContent: 'center', marginBottom: '0.75rem' }}>
                         My Journey
                     </div>
-                    <Antigravity floatSpeed={2.2} moveRange={6}>
+                    <div className="experience-heading-mobile">
                         <h2 className="section-heading section-heading-lg text-gradient">
                             Work Experience
                         </h2>
-                    </Antigravity>
+                    </div>
+                    <div className="experience-heading-desktop">
+                        <Antigravity floatSpeed={2.2} moveRange={6}>
+                            <h2 className="section-heading section-heading-lg text-gradient">
+                                Work Experience
+                            </h2>
+                        </Antigravity>
+                    </div>
+                    <p style={{ maxWidth: '620px', margin: '1.25rem auto 0 auto', color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.65, padding: '0 1rem' }}>
+                        Although my corporate industry experience is emerging, I have a deep wealth of practical, hands-on experience designing and building fully featured, high-performance web and mobile applications.
+                    </p>
                 </div>
 
                 {loading ? (
@@ -89,7 +93,7 @@ const Experience = () => {
                             >
                                 {/* Timeline Dot */}
                                 <motion.div
-                                    whileHover={{ scale: 1.2, backgroundColor: 'var(--accent-secondary)' }}
+                                    whileHover={isMobile ? undefined : { scale: 1.2, backgroundColor: 'var(--accent-secondary)' }}
                                     style={{
                                         width: isMobile ? '40px' : '50px',
                                         height: isMobile ? '40px' : '50px',

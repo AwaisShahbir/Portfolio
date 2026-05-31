@@ -4,7 +4,7 @@ import { Plus, Trash2, FileDown, Upload, Eye } from 'lucide-react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useDocument, setDocument } from '../../../hooks/useFirestore';
 import { ICON_OPTIONS, getIcon } from '../../../utils/iconMap.jsx';
-import { storage } from '../../../firebase';
+import { storage } from '../../../firebaseAdmin';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const COLOR_OPTIONS = [
