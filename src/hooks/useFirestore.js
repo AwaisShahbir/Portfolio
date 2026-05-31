@@ -68,12 +68,21 @@ const FALLBACK_DATA = {
     'experience': [
         {
             id: 'e1',
+            role: 'Frontend Development Intern',
+            company: 'Decode Labs',
+            duration: 'May 2026 – June 2026',
+            location: 'Remote / Virtual',
+            description: 'Collaborated on frontend web applications, completing key milestones on time. Focused on building responsive, user-friendly interfaces, translating design assets into interactive pages, and participating in mentor-led technical sessions.',
+            order: 1,
+        },
+        {
+            id: 'e2',
             role: 'Junior Flutter Developer',
             company: 'Blendz Marketing',
             duration: 'Aug 2025 – Apr 2026',
             location: 'Remote, Lahore, Pakistan',
             description: 'Developed and optimized cross-platform Flutter applications for mobile and tablet screens. Designed clean, responsive user interfaces and custom micro-animations. Integrated REST APIs, Firebase authentication, and database services.',
-            order: 1,
+            order: 2,
         }
     ]
 };
