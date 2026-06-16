@@ -69,6 +69,13 @@ export default async function handler(req, res) {
       }
       
       const serviceAccount = JSON.parse(serviceAccountKey);
+      
+      // Vercel stores multi-line env vars with literal \n instead of real newlines.
+      // Restore real newlines in the private key so the RSA key parses correctly.
+      if (serviceAccount.private_key) {
+        serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+      }
+      
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
       });
