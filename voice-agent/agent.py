@@ -142,9 +142,6 @@ async def entrypoint(ctx: JobContext):
             instructions=SYSTEM_PROMPT,
             llm=realtime_model,
             tools=[assistant_tools],
-            turn_handling={
-                "endpointing": {"min_delay": 0.25, "max_delay": 0.8}
-            }
         )
     else:
         logger.info("Initializing Agent with OpenAI Plugins...")
@@ -168,14 +165,8 @@ async def entrypoint(ctx: JobContext):
     
     # Give a verbal greeting when joining the call
     if use_gemini:
-        # Wait for the Gemini connection task to establish the WebSocket
-        for _ in range(100):
-            activity = getattr(session, "_activity", None)
-            if activity:
-                rt_session = getattr(activity, "_rt_session", None)
-                if rt_session and getattr(rt_session, "_active_session", None) is not None:
-                    break
-            await asyncio.sleep(0.05)
+        # Wait for Gemini realtime WebSocket to fully establish before sending greeting
+        await asyncio.sleep(3)
         await session.generate_reply(
             instructions="Greet the user with this exact phrase: 'Hello! I'm Aree, Awais's personal voice assistant. I can help you with any questions you have about his professional background, or I can connect you directly to him if you'd like. What can I help you with today?'"
         )
