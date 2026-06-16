@@ -24,7 +24,7 @@ const SUGGESTIONS = [
  */
 const VoiceAssistantPlaceholder = ({ onClose, isConnecting, error, onRetry }) => {
   return (
-    <div className="voice-assistant-modal-body" style={{ display: 'flex', flexDirection: 'row', height: '100%', width: '100%' }}>
+    <div className="voice-assistant-modal-body">
       {/* Left Profile Pane */}
       <div className="voice-left-pane">
         <button className="voice-left-close-btn" onClick={onClose} title="Close Assistant">
@@ -196,7 +196,7 @@ const VoiceAssistantInner = ({ onClose, onDisconnect }) => {
   };
 
   return (
-    <div className="voice-assistant-modal-body" style={{ display: 'flex', flexDirection: 'row', height: '100%', width: '100%' }}>
+    <div className="voice-assistant-modal-body">
       {/* Left Profile Pane */}
       <div className="voice-left-pane">
         <button className="voice-left-close-btn" onClick={onClose} title="Close Assistant">
