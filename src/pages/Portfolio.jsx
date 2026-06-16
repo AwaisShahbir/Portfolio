@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import About from '../components/About';
 import LoadingSpinner from '../components/LoadingSpinner';
 import useEasterEgg from '../hooks/useEasterEgg';
+import VoiceAssistant from '../components/VoiceAssistant';
 
 // Code splitting: lazy-load below-the-fold sections
 const Experience = React.lazy(() => import('../components/Experience'));
@@ -29,6 +30,7 @@ const Portfolio = () => {
                 <Projects />
                 <Contact />
             </Suspense>
+            <VoiceAssistant />
         </div>
     );
 };

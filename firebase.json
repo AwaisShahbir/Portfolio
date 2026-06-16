@@ -2,6 +2,16 @@
   "firestore": {
     "rules": "firestore.rules"
   },
+  "functions": {
+    "source": "functions",
+    "codebase": "default",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firestore-debug.log"
+    ]
+  },
   "hosting": {
     "site": "portfolio-a63a3",
     "public": "dist",
@@ -31,6 +41,20 @@
       }
     ],
     "rewrites": [
+      {
+        "source": "/api/token",
+        "function": {
+          "codebase": "default",
+          "id": "getLiveKitToken"
+        }
+      },
+      {
+        "source": "/api/notify-contact",
+        "function": {
+          "codebase": "default",
+          "id": "notifyContactRequest"
+        }
+      },
       {
         "source": "**",
         "destination": "/index.html"

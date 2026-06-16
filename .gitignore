@@ -26,3 +26,14 @@ dist-ssr
 
 # Firebase
 .firebase/
+
+# Python Virtualenv and dotenv
+voice-agent/venv/
+voice-agent/.env
+functions/.env
+
+# Local logs and videos
+*.mp4
+console_log.txt
+console_tool_outputs.txt
+subagent_content.txt

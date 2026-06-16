@@ -67,7 +67,7 @@ const Hero = () => {
                         <LoadingSpinner text="Loading..." />
                     ) : (
                         <>
-                            <motion.h1 
+                            <motion.h1
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ type: 'spring', stiffness: 100, delay: 0.2 }}
@@ -147,13 +147,13 @@ const Hero = () => {
                             <div style={{ position: 'relative', width: 'clamp(170px, 50vw, 200px)', height: 'clamp(170px, 50vw, 200px)', borderRadius: '50%', overflow: 'hidden', zIndex: 3, boxShadow: '0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(167,139,250,0.18), inset 0 0 30px rgba(0,0,0,0.3)' }}>
                                 <div className="photo-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(99,102,241,0.2) 0%, transparent 50%, rgba(167,139,250,0.15) 100%)', opacity: 0.15, zIndex: 2, mixBlendMode: 'overlay' }} />
                                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, rgba(11,15,26,0.5), transparent)', zIndex: 2, pointerEvents: 'none' }} />
-                                <img 
-                                    src="/profile.webp" 
-                                    alt={data?.name || 'Profile'} 
+                                <img
+                                    src="/profile.png"
+                                    alt={data?.name || 'Profile'}
                                     width="339"
                                     height="371"
                                     fetchpriority="high"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} 
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', transform: 'scale(0.95)', display: 'block' }}
                                 />
                             </div>
                         </div>
@@ -194,18 +194,18 @@ const Hero = () => {
                                 />
                                 {/* Profile circle */}
                                 <div style={{ position: 'relative', width: 'clamp(240px, 72vw, 340px)', height: 'clamp(240px, 72vw, 340px)', borderRadius: '50%', overflow: 'hidden', zIndex: 3, boxShadow: '0 0 40px rgba(99, 102, 241, 0.4), 0 0 80px rgba(167, 139, 250, 0.18), inset 0 0 30px rgba(0, 0, 0, 0.3)' }}
-                                    onMouseEnter={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.45'; if (img) img.style.transform = 'scale(1.08)'; }}
-                                    onMouseLeave={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.15'; if (img) img.style.transform = 'scale(1)'; }}
+                                    onMouseEnter={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.45'; if (img) img.style.transform = 'scale(1.05)'; }}
+                                    onMouseLeave={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.15'; if (img) img.style.transform = 'scale(1.0)'; }}
                                 >
                                     <div className="photo-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(99, 102, 241, 0.2) 0%, transparent 50%, rgba(167, 139, 250, 0.15) 100%)', opacity: 0.15, transition: 'opacity 0.5s', zIndex: 2, mixBlendMode: 'overlay' }} />
                                     <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, rgba(11, 15, 26, 0.5), transparent)', zIndex: 2, pointerEvents: 'none' }} />
-                                    <img 
-                                        src="/profile.webp" 
-                                        alt={data?.name || 'Profile'} 
+                                    <img
+                                        src="/profile.png"
+                                        alt={data?.name || 'Profile'}
                                         width="339"
                                         height="371"
                                         fetchpriority="high"
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', transition: 'transform 0.6s ease', display: 'block' }} 
+                                        style={{ width: '100%', height: '110%', objectFit: 'cover', objectPosition: 'center', transform: 'scale(1.0)', transition: 'transform 0.6s ease', display: 'block' }}
                                     />
                                 </div>
                                 {/* Floating badges */}
