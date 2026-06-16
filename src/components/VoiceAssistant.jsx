@@ -340,8 +340,9 @@ const VoiceAssistant = () => {
     setError('');
     setCallActive(true);
     try {
+      const apiBaseUrl = import.meta.env.VITE_VERCEL_API_URL || '';
       const uniqueRoomName = `portfolio-${Math.random().toString(36).substring(2, 9)}`;
-      const res = await fetch(`/api/token?room=${uniqueRoomName}`);
+      const res = await fetch(`${apiBaseUrl}/api/token?room=${uniqueRoomName}`);
       if (!res.ok) {
         throw new Error(`Failed to retrieve token. Server returned ${res.status}`);
       }
