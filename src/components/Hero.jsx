@@ -153,7 +153,7 @@ const Hero = () => {
                                 {/* Image Container (Taller, bottom clipped) */}
                                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '125%', overflow: 'hidden', borderRadius: '0 0 200px 200px', pointerEvents: 'none' }}>
                                     <img
-                                        src="/profile.webp"
+                                        src="/profile.webp?v=3"
                                         alt={data?.name || 'Profile'}
                                         width="339"
                                         height="371"
@@ -225,7 +225,7 @@ const Hero = () => {
                                     {/* Image Container (Taller, bottom clipped) */}
                                     <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '125%', overflow: 'hidden', borderRadius: '0 0 250px 250px', pointerEvents: 'none' }}>
                                         <img
-                                            src="/profile.webp"
+                                            src="/profile.webp?v=3"
                                             alt={data?.name || 'Profile'}
                                             width="339"
                                             height="371"
