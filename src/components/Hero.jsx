@@ -143,29 +143,39 @@ const Hero = () => {
                             <div
                                 style={{ position: 'absolute', inset: 8, borderRadius: '50%', border: '1px dashed rgba(129,140,248,0.3)', zIndex: 2 }}
                             />
-                            {/* Profile circle */}
-                            <div style={{ position: 'relative', width: 'clamp(170px, 50vw, 200px)', height: 'clamp(170px, 50vw, 200px)', borderRadius: '50%', overflow: 'hidden', zIndex: 3, boxShadow: '0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(167,139,250,0.18), inset 0 0 30px rgba(0,0,0,0.3)' }}>
-                                <div className="photo-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(99,102,241,0.2) 0%, transparent 50%, rgba(167,139,250,0.15) 100%)', opacity: 0.15, zIndex: 2, mixBlendMode: 'overlay' }} />
-                                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, rgba(11,15,26,0.5), transparent)', zIndex: 2, pointerEvents: 'none' }} />
-                                <img
-                                    src="/profile.png"
-                                    alt={data?.name || 'Profile'}
-                                    width="339"
-                                    height="371"
-                                    fetchpriority="high"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', transform: 'scale(0.95)', display: 'block' }}
-                                />
+                            {/* Profile circle (Pop-out Container) */}
+                            <div style={{ position: 'relative', width: 'clamp(170px, 50vw, 200px)', height: 'clamp(170px, 50vw, 200px)', zIndex: 3 }}>
+                                {/* Background Circle */}
+                                <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(30, 27, 75, 0.4)', boxShadow: '0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(167,139,250,0.18), inset 0 0 30px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+                                    <div className="photo-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(99,102,241,0.2) 0%, transparent 50%, rgba(167,139,250,0.15) 100%)', opacity: 0.15, zIndex: 2, mixBlendMode: 'overlay' }} />
+                                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, rgba(11,15,26,0.5), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+                                </div>
+                                {/* Image Container (Taller, bottom clipped) */}
+                                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '125%', overflow: 'hidden', borderRadius: '0 0 200px 200px', pointerEvents: 'none' }}>
+                                    <img
+                                        src="/profile.webp"
+                                        alt={data?.name || 'Profile'}
+                                        width="339"
+                                        height="371"
+                                        fetchpriority="high"
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
+                                    />
+                                </div>
                             </div>
                         </div>
                         {/* Side-by-side badges aligned below profile circle */}
-                        <div style={{ display: 'flex', gap: '0.65rem', justifyContent: 'center', zIndex: 5, marginTop: '0.25rem' }}>
+                        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', zIndex: 5, marginTop: '0.4rem', flexWrap: 'wrap' }}>
                             <div
-                                style={{ background: 'rgba(11, 15, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '6px 14px', borderRadius: '30px', border: '1px solid rgba(129, 140, 248, 0.3)', color: 'var(--accent-primary)', fontWeight: 700, fontSize: '0.7rem', letterSpacing: '1px', boxShadow: '0 4px 15px rgba(99,102,241,0.15)' }}>
+                                style={{ background: 'rgba(11, 15, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '6px 12px', borderRadius: '30px', border: '1px solid rgba(129, 140, 248, 0.3)', color: 'var(--accent-primary)', fontWeight: 700, fontSize: '0.68rem', letterSpacing: '1px', boxShadow: '0 4px 15px rgba(99,102,241,0.15)' }}>
                                 ⚛ REACT / NODE
                             </div>
                             <div
-                                style={{ background: 'rgba(11, 15, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '6px 14px', borderRadius: '30px', border: '1px solid rgba(167, 139, 250, 0.3)', color: 'var(--accent-secondary)', fontWeight: 700, fontSize: '0.7rem', letterSpacing: '1px', boxShadow: '0 4px 15px rgba(167,139,250,0.15)' }}>
+                                style={{ background: 'rgba(11, 15, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '6px 12px', borderRadius: '30px', border: '1px solid rgba(167, 139, 250, 0.3)', color: 'var(--accent-secondary)', fontWeight: 700, fontSize: '0.68rem', letterSpacing: '1px', boxShadow: '0 4px 15px rgba(167,139,250,0.15)' }}>
                                 🎯 FLUTTER
+                            </div>
+                            <div
+                                style={{ background: 'rgba(11, 15, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '6px 12px', borderRadius: '30px', border: '1px solid rgba(251, 191, 36, 0.3)', color: '#fbbf24', fontWeight: 700, fontSize: '0.68rem', letterSpacing: '1px', boxShadow: '0 4px 15px rgba(251, 191, 36, 0.15)' }}>
+                                🤖 AI ENTHUSIAST
                             </div>
                         </div>
                     </div>
@@ -178,7 +188,7 @@ const Hero = () => {
                                 <motion.div
                                     animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.5, 0.3] }}
                                     transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                                    style={{ position: 'absolute', inset: -20, borderRadius: '50%', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(167, 139, 250, 0.12) 50%, transparent 70%)', pointerEvents: 'none' }}
+                                    style={{ position: 'absolute', inset: -20, borderRadius: '50%', background: 'radial-gradient(circle, rgba(99, 102, 251, 0.25) 0%, rgba(167, 139, 250, 0.12) 50%, transparent 70%)', pointerEvents: 'none' }}
                                 />
                                 {/* Conic gradient border ring */}
                                 <motion.div
@@ -192,21 +202,45 @@ const Hero = () => {
                                     animate={{ rotate: -360 }} transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
                                     style={{ position: 'absolute', inset: 8, borderRadius: '50%', border: '1px dashed rgba(129, 140, 248, 0.3)', zIndex: 2 }}
                                 />
-                                {/* Profile circle */}
-                                <div style={{ position: 'relative', width: 'clamp(240px, 72vw, 340px)', height: 'clamp(240px, 72vw, 340px)', borderRadius: '50%', overflow: 'hidden', zIndex: 3, boxShadow: '0 0 40px rgba(99, 102, 241, 0.4), 0 0 80px rgba(167, 139, 250, 0.18), inset 0 0 30px rgba(0, 0, 0, 0.3)' }}
-                                    onMouseEnter={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.45'; if (img) img.style.transform = 'scale(1.05)'; }}
-                                    onMouseLeave={e => { const o = e.currentTarget.querySelector('.photo-overlay'); const img = e.currentTarget.querySelector('img'); if (o) o.style.opacity = '0.15'; if (img) img.style.transform = 'scale(1.0)'; }}
+                                {/* Profile circle (Pop-out Container) */}
+                                <div style={{ position: 'relative', width: 'clamp(240px, 72vw, 340px)', height: 'clamp(240px, 72vw, 340px)', zIndex: 3 }}
+                                    onMouseEnter={e => { 
+                                        const o = e.currentTarget.querySelector('.photo-overlay'); 
+                                        const img = e.currentTarget.querySelector('img'); 
+                                        if (o) o.style.opacity = '0.45'; 
+                                        if (img) img.style.transform = 'scale(1.08) translateY(-4%)'; 
+                                    }}
+                                    onMouseLeave={e => { 
+                                        const o = e.currentTarget.querySelector('.photo-overlay'); 
+                                        const img = e.currentTarget.querySelector('img'); 
+                                        if (o) o.style.opacity = '0.15'; 
+                                        if (img) img.style.transform = 'scale(1.0) translateY(0)'; 
+                                    }}
                                 >
-                                    <div className="photo-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(99, 102, 241, 0.2) 0%, transparent 50%, rgba(167, 139, 250, 0.15) 100%)', opacity: 0.15, transition: 'opacity 0.5s', zIndex: 2, mixBlendMode: 'overlay' }} />
-                                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, rgba(11, 15, 26, 0.5), transparent)', zIndex: 2, pointerEvents: 'none' }} />
-                                    <img
-                                        src="/profile.png"
-                                        alt={data?.name || 'Profile'}
-                                        width="339"
-                                        height="371"
-                                        fetchpriority="high"
-                                        style={{ width: '100%', height: '110%', objectFit: 'cover', objectPosition: 'center', transform: 'scale(1.0)', transition: 'transform 0.6s ease', display: 'block' }}
-                                    />
+                                    {/* Background Circle */}
+                                    <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(30, 27, 75, 0.4)', boxShadow: '0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(167, 139, 250, 0.18), inset 0 0 30px rgba(0, 0, 0, 0.3)', overflow: 'hidden' }}>
+                                        <div className="photo-overlay" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(99, 102, 241, 0.2) 0%, transparent 50%, rgba(167, 139, 250, 0.15) 100%)', opacity: 0.15, transition: 'opacity 0.5s', zIndex: 2, mixBlendMode: 'overlay' }} />
+                                        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, rgba(11, 15, 26, 0.5), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+                                    </div>
+                                    {/* Image Container (Taller, bottom clipped) */}
+                                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '125%', overflow: 'hidden', borderRadius: '0 0 250px 250px', pointerEvents: 'none' }}>
+                                        <img
+                                            src="/profile.webp"
+                                            alt={data?.name || 'Profile'}
+                                            width="339"
+                                            height="371"
+                                            fetchpriority="high"
+                                            style={{ 
+                                                width: '100%', 
+                                                height: '100%', 
+                                                objectFit: 'cover', 
+                                                objectPosition: 'top center', 
+                                                transform: 'scale(1.0) translateY(0)', 
+                                                transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)', 
+                                                display: 'block' 
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                                 {/* Floating badges */}
                                 <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -216,6 +250,10 @@ const Hero = () => {
                                 <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
                                     style={{ position: 'absolute', top: '12%', left: '-10%', background: 'rgba(11, 15, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '8px 18px', borderRadius: '30px', border: '1px solid rgba(167, 139, 250, 0.3)', color: 'var(--accent-secondary)', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '1.5px', zIndex: 5, boxShadow: '0 4px 20px rgba(167, 139, 250, 0.2)' }}>
                                     🎯 FLUTTER
+                                </motion.div>
+                                <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                                    style={{ position: 'absolute', top: '22%', right: '-12%', background: 'rgba(11, 15, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '8px 18px', borderRadius: '30px', border: '1px solid rgba(251, 191, 36, 0.3)', color: '#fbbf24', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '1.5px', zIndex: 5, boxShadow: '0 4px 20px rgba(251, 191, 36, 0.2)' }}>
+                                    🤖 AI ENTHUSIAST
                                 </motion.div>
                             </div>
                         </Antigravity>
