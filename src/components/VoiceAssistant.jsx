@@ -5,8 +5,7 @@ import {
   useConnectionState, 
   useRoomContext, 
   useLocalParticipant,
-  useChat,
-  useIsSpeaking
+  useChat
 } from '@livekit/components-react';
 import { RoomEvent } from 'livekit-client';
 import { Mic, MicOff, PhoneOff, X, Sparkles, AlertCircle, Send, Headset } from 'lucide-react';
@@ -94,7 +93,7 @@ const VoiceAssistantInner = ({ onClose, onDisconnect }) => {
     
     const updateAgent = () => {
       const participants = Array.from(room.remoteParticipants.values());
-      const agent = participants.find(p => p.identity === 'agent' || p.identity?.includes('agent'));
+      const agent = participants.find(p => p.isAgent || p.identity === 'agent' || p.identity?.includes('agent'));
       setAgentParticipant(agent || null);
     };
 
@@ -108,10 +107,23 @@ const VoiceAssistantInner = ({ onClose, onDisconnect }) => {
     };
   }, [room]);
 
-  // Determine speaking states
-  const isAgentSpeakingReal = useIsSpeaking(agentParticipant || localParticipant);
-  const isAgentSpeaking = agentParticipant ? isAgentSpeakingReal : false;
-  const isUserSpeaking = useIsSpeaking(localParticipant);
+  // Determine speaking states safely via ActiveSpeakersChanged
+  const [isAgentSpeaking, setIsAgentSpeaking] = useState(false);
+  const [isUserSpeaking, setIsUserSpeaking] = useState(false);
+
+  useEffect(() => {
+    if (!room) return;
+    const handleSpeakersChanged = (speakers) => {
+      const agentActive = speakers.some(s => s.isAgent || s.identity === 'agent' || s.identity?.includes('agent'));
+      const userActive = speakers.some(s => s === room.localParticipant || s.identity === room.localParticipant?.identity);
+      setIsAgentSpeaking(agentActive);
+      setIsUserSpeaking(userActive);
+    };
+    room.on(RoomEvent.ActiveSpeakersChanged, handleSpeakersChanged);
+    return () => {
+      room.off(RoomEvent.ActiveSpeakersChanged, handleSpeakersChanged);
+    };
+  }, [room]);
 
   // Auto-scroll transcript log to bottom
   useEffect(() => {
@@ -125,7 +137,7 @@ const VoiceAssistantInner = ({ onClose, onDisconnect }) => {
     if (!room) return;
 
     const onTranscription = (segments, participant) => {
-      const isAgent = participant?.identity === 'agent' || participant?.identity?.includes('agent');
+      const isAgent = participant?.isAgent || participant?.identity === 'agent' || participant?.identity?.includes('agent');
       const sender = isAgent ? 'agent' : 'user';
 
       setTranscripts(prev => {
@@ -187,7 +199,7 @@ const VoiceAssistantInner = ({ onClose, onDisconnect }) => {
   const getLeftDesc = () => {
     if (connectionState === 'connected') {
       if (agentParticipant) return "Connected to the assistant. Speak or type a message below.";
-      return "Establishing call assistant agent...";
+      return "Assistant agent is connecting... (waiting for agent worker)";
     }
     if (connectionState === 'connecting' || connectionState === 'reconnecting') {
       return "Connecting to voice server...";
@@ -340,7 +352,7 @@ const VoiceAssistant = () => {
     setError('');
     setCallActive(true);
     try {
-      const apiBaseUrl = import.meta.env.VITE_VERCEL_API_URL || '';
+      const apiBaseUrl = import.meta.env.VITE_VERCEL_API_URL || 'https://portfolio-omega-beige-xyibxkfqlk.vercel.app';
       const uniqueRoomName = `portfolio-${Math.random().toString(36).substring(2, 9)}`;
       const res = await fetch(`${apiBaseUrl}/api/token?room=${uniqueRoomName}`);
       if (!res.ok) {

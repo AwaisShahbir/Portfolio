@@ -1,6 +1,16 @@
+import sys
 import os
 import logging
 import asyncio
+
+# Ensure UTF-8 console encoding on Windows to avoid charmap UnicodeEncodeErrors
+if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 # pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
 # pyrefly: ignore [missing-import]
@@ -162,6 +172,31 @@ async def entrypoint(ctx: JobContext):
     session = AgentSession()
     await session.start(agent, room=ctx.room)
     logger.info("Voice session successfully started.")
+
+    # Listen for typed messages from the chat UI
+    @ctx.room.on("data_received")
+    def on_data_received(data_packet):
+        try:
+            payload_str = data_packet.data.decode("utf-8")
+            logger.info(f"Received message on topic '{data_packet.topic}': {payload_str}")
+            import json
+            msg_text = payload_str
+            try:
+                msg_json = json.loads(payload_str)
+                if isinstance(msg_json, dict) and "message" in msg_json:
+                    msg_text = msg_json["message"]
+            except Exception:
+                pass
+            
+            if msg_text and msg_text.strip():
+                logger.info(f"Agent replying to text prompt: {msg_text}")
+                asyncio.create_task(
+                    session.generate_reply(
+                        instructions=f"The user sent a typed message: '{msg_text}'. Respond to them helpfully, clearly, and concisely in 1-3 sentences."
+                    )
+                )
+        except Exception as e:
+            logger.error(f"Error handling data_received: {e}")
     
     # Give a verbal greeting when joining the call
     if use_gemini:
@@ -173,6 +208,55 @@ async def entrypoint(ctx: JobContext):
     else:
         await session.say("Hello! I'm Aree, Awais's personal voice assistant. I can help you with any questions you have about his professional background, or I can connect you directly to him if you'd like. What can I help you with today?", allow_interruptions=True)
 
+def start_health_server(port=7860):
+    """Starts a lightweight HTTP server on port 7860 so Hugging Face Spaces marks the container as active."""
+    from http.server import HTTPServer, BaseHTTPRequestHandler
+    import threading
+
+    class HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            html = """<!DOCTYPE html>
+<html>
+<head>
+    <title>Awais Shabbir - Voice Assistant Worker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b0f19; color: #f8fafc; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { text-align: center; padding: 2.5rem; border-radius: 16px; background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5); max-width: 420px; width: 90%; }
+        .badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); padding: 6px 14px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem; margin-bottom: 1rem; }
+        .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
+        h2 { margin: 0 0 0.5rem 0; font-size: 1.5rem; color: #38bdf8; }
+        p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="badge"><div class="dot"></div> Live &amp; Connected</div>
+        <h2>Aree Voice Assistant</h2>
+        <p>LiveKit Agent worker is running 24/7 and handling real-time portfolio voice sessions.</p>
+    </div>
+</body>
+</html>"""
+            self.wfile.write(html.encode("utf-8"))
+
+        def log_message(self, format, *args):
+            pass
+
+    try:
+        server = HTTPServer(('0.0.0.0', port), HealthHandler)
+        t = threading.Thread(target=server.serve_forever, daemon=True)
+        t.start()
+        logger.info(f"Health server listening on port {port}")
+    except Exception as e:
+        logger.warning(f"Could not start health server on port {port}: {e}")
+
 if __name__ == "__main__":
+    # Start status web server for platforms like Hugging Face Spaces
+    port = int(os.getenv("PORT", "7860"))
+    start_health_server(port)
+    
     # Start worker using LiveKit agents CLI
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint, agent_name="portfolio-agent"))

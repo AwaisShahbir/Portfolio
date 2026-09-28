@@ -131,13 +131,29 @@ python agent.py dev
 | `GEMINI_API_KEY` | Google Gemini API Key |
 | `FIREBASE_FUNCTIONS_URL` | Your Vercel deployment URL + `/api` |
 
-### 4. Deploy Agent to Railway (24/7)
+### 4. Deploy Agent for 24/7 Free Hosting (Render.com)
 
-1. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub
-2. Select this repository
-3. Set **Root Directory** to `voice-agent`
-4. Add all environment variables from the table above
-5. Railway will auto-deploy and keep the agent running 24/7
+Render provides a **100% free Python Web Service** (no credit card required).
+
+1. Go to [render.com](https://render.com) and sign in with GitHub.
+2. Click **New +** → **Web Service** → select your `Portfolio` repository.
+3. Configure the settings:
+   - **Name:** `portfolio-voice-agent`
+   - **Root Directory:** `voice-agent`
+   - **Environment:** `Python 3`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `python agent.py start`
+   - **Instance Type:** `Free`
+4. Add Environment Variables:
+   - `LIVEKIT_URL`: `wss://awais-portfolio-5vsj5zgs.livekit.cloud`
+   - `LIVEKIT_API_KEY`: *(your LiveKit API key)*
+   - `LIVEKIT_API_SECRET`: *(your LiveKit API secret)*
+   - `USE_GEMINI`: `true`
+   - `GEMINI_API_KEY`: *(your Gemini API key)*
+   - `FIREBASE_FUNCTIONS_URL`: `https://portfolio-omega-beige-xyibxkfqlk.vercel.app/api`
+   - `PYTHON_VERSION`: `3.11.9`
+5. Click **Deploy Web Service**.
+6. *(Optional)* Add your Render URL to [cron-job.org](https://cron-job.org) or [uptimerobot.com](https://uptimerobot.com) to ping it every 10 minutes to prevent the free tier from sleeping.
 
 ---
 
