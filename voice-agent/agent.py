@@ -14,7 +14,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
 # pyrefly: ignore [missing-import]
 from dotenv import load_dotenv
 # pyrefly: ignore [missing-import]
-from livekit.agents import AutoSubscribe, JobContext, WorkerOptions, cli, llm
+from livekit.agents import AutoSubscribe, JobContext, WorkerOptions, JobExecutorType, cli, llm
 # pyrefly: ignore [missing-import]
 from livekit.agents import Agent, AgentSession
 # pyrefly: ignore [missing-import]
@@ -259,4 +259,13 @@ if __name__ == "__main__":
     start_health_server(port)
     
     # Start worker using LiveKit agents CLI
-    cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint, agent_name="portfolio-agent"))
+    # Use THREAD executor and 0 idle processes to optimize for cloud/container environments (prevents CPU load throttling)
+    cli.run_app(
+        WorkerOptions(
+            entrypoint_fnc=entrypoint,
+            agent_name="portfolio-agent",
+            job_executor_type=JobExecutorType.THREAD,
+            num_idle_processes=0,
+            load_threshold=float("inf")
+        )
+    )
